@@ -111,9 +111,11 @@ priority = (unmet / qty) × (overlooked ? 1.6 : 1) × (risk == high ? 1.2 : 1) �
 
 `match` is true when the volunteer brings an asset or skill the mission lists as needed. Full missions drop to the bottom with "Help here instead".
 
-### 5.2 Burnout rules (prototype defaults)
+### 5.2 Burnout rules (placeholder defaults)
 
-| Rule | Default |
+These values are **placeholders** for the prototype. Final caps are to be agreed with the NGO partner.
+
+| Rule | Placeholder |
 | --- | --- |
 | Max hours per day | 8 |
 | Max hours per 7 days | 40 |
@@ -122,6 +124,32 @@ priority = (unmet / qty) × (overlooked ? 1.6 : 1) × (risk == high ? 1.2 : 1) �
 | Max consecutive days | 5, then one rest day |
 
 Coordinators see volunteers near their limits. Caps can be raised only by a coordinator, with a reason.
+
+### 5.3 Verification badges
+
+Badges are verified by the relevant **professional body**. In the prototype the check is simulated and labelled "(demo)".
+
+| Badge | Verified by (Malaysia, to confirm) | What is checked |
+| --- | --- | --- |
+| Medic | Malaysian Medical Council (doctors), Malaysia Nursing Board (nurses), Malaysian Medical Assistants Board | Current registration |
+| Electrician | Energy Commission (Suruhanjaya Tenaga) | Electrical competency certificate |
+| Engineer | Board of Engineers Malaysia (BEM) | Professional engineer registration |
+| Child-safe | Police background check (PDRM), via the NGO partner | No relevant record |
+
+### 5.4 Flood training modules (example)
+
+Short, simple modules for the flood scenario. Each is about 2 minutes plus 3 quick questions, and is valid for 12 months.
+
+| Module | Covers | Required for |
+| --- | --- | --- |
+| **Flood safety basics** | Don't walk or drive through moving water; check in and out; when to leave | Every first post (all volunteers) |
+| **Safe flood cleanup** | Gloves, boots, masks; sharp debris; lifting safely | Cleanup posts |
+| **Hygiene and disease** | Leptospirosis, clean water, washing hands and wounds | Cleanup, sanitation and kitchen posts |
+| **Electricity after a flood** | Never touch wet switches; wait for the electrician; generator fumes | Posts in damaged buildings, generator and water pump posts |
+| **Driving in flood areas** | Water depth, road closures, carrying supplies safely | Driving, 4x4 and lorry posts |
+| **Boat safety** | Life jackets, load limits, currents | Boat posts |
+| **Psychological first aid** | Listen, stay calm, don't promise, refer on | Relief center and home visit posts |
+| **Working safely around children** | Never alone with a child, no photos, report concerns | Child-safe posts |
 
 ---
 
@@ -245,18 +273,42 @@ Volunteers and people affected by disasters never pay.
 ## 12. Roadmap
 
 1. **Hackathon:** dispatch engine with core and differentiator features, shown through the school flood scenario.
-2. **Pilot:** one flood-prone district with one NGO and real training content.
+2. **Pilot:** Selangor (example), with the placeholder NGO partner and real training content.
 3. **Credentials:** real ID and professional verification partners.
 4. **Teams:** corporate volunteering programs.
 5. **Scale:** more site types and scenarios, WhatsApp intake, offline and SMS support.
 
 ---
 
-## 13. Open questions
+## 13. Competitor: GoodSAM
 
-- Name check: confirm "ReadyHands" is free (domain, app stores, Malaysian NGOs).
-- Who verifies badges (professional bodies, NGO partner, manual review)?
-- Which training modules are required for which missions?
-- Default burnout caps: agree with an NGO partner.
-- Pilot district and NGO partner.
-- Competitors to check (Crisis Cleanup, Team Rubicon, GoodSAM, local Malaysian tools).
+[GoodSAM](https://www.goodsamapp.org) is the closest well-known competitor.
+
+| | GoodSAM | ReadyHands |
+| --- | --- | --- |
+| Main use | Emergency alerts: sends nearby trained responders to a suspected cardiac arrest before the ambulance arrives | Disaster recovery: sends volunteers with the right skills and equipment to sites after a natural disaster |
+| Who it's run with | Ambulance services (NHS in the UK, Australia, New Zealand) | NGOs, district offices and schools |
+| Who responds | Mostly medically trained people (CPR / Basic Life Support checked) | Anyone; professional work needs a verified badge |
+| Timing | Seconds to minutes, one patient | Days to weeks, many sites and shifts |
+| Matching | Distance to the incident | Skills **and** assets (4x4, boat, generator), training, badges, rest, fairness to overlooked sites |
+| Volunteer safety | Not the main focus | Check-in / check-out, overdue alerts, "I need help", burnout caps |
+| Training | Requires existing CPR training | Built-in two-minute modules before deployment |
+| Recognition | Not the main focus | Certificates and badges |
+
+GoodSAM also has a volunteer deployment module (used by NHS and the British Red Cross to send volunteers to people who need help), so it could expand toward our space.
+
+**Our angle:** GoodSAM is great for one emergency, right now, nearby. ReadyHands is for the weeks after a disaster, when many sites need many kinds of help, and volunteers need to be matched, trained, kept safe and not burned out.
+
+---
+
+## 14. Decisions
+
+| Question | Decision |
+| --- | --- |
+| Name | **ReadyHands.** No volunteer or disaster app and no Malaysian NGO found under this name. Before public use, note that **Ready Hands International®** (readyhands.org) is a US nutrition non-profit with a registered mark, and readyhands.com is used by a US home care company. `readyhands.my` and `readyhands.app` did not respond (availability still to check with a registrar). |
+| Who verifies badges | **Professional bodies** (see §5.3). |
+| Training modules | Flood example set in §5.4. |
+| Burnout caps | **Placeholders** in §5.2, to agree with the NGO partner. |
+| Pilot | **Selangor** (example). |
+| NGO partner | **Placeholder: "Harapan Relief" (fictional)** in the demo. Real target: a Red Cross / Red Crescent society (in Malaysia, the Malaysian Red Crescent). Don't show a real organization's name or logo without their agreement. |
+| Competitor focus | **GoodSAM** (see §13). |
