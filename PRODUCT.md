@@ -63,13 +63,15 @@ recognition            (overdue → alert)                 poster accepts, requi
 
 ## 4. Users
 
-There are two roles. One account can be both a volunteer and a poster.
+Everyone starts as a volunteer. **A volunteer can become a poster, but only after an admin / coordinator approves them.**
 
 | User | Job to be done | Primary screens |
 | --- | --- | --- |
-| **Admin / coordinator** (NGO, agency, district) | **Approve a post** before it goes live; watch safety alerts and fatigue; verify badges | Coordinator dashboard |
-| **Poster** (in the example: school principal) | Create a post asking for the people and equipment a site needs; accept or decline volunteers who request to join | Create a post (school damage report in the example), My posts |
+| **Admin / coordinator** (NGO, agency, district) | **Approve volunteers who apply to be posters**; **approve a post** before it goes live; watch safety alerts and fatigue; verify badges | Coordinator dashboard |
 | **Volunteer** | Find posts that fit my skills and equipment, **request to join a post**, get trained, help safely, get home safely | Profile, Training, Post board, Safety check-in |
+| **Poster** (an approved volunteer; in the example: school principal) | Create a post asking for the people and equipment a site needs; accept or decline volunteers who request to join | Create a post (school damage report in the example), My posts |
+
+**Becoming a poster:** volunteer applies ("I need help for a site": name the site and their role there) → admin / coordinator approves → the account gets poster access and keeps its volunteer side.
 
 **Volunteer ↔ poster:** the volunteer sends a request on an approved post; the poster accepts or declines it. Professional volunteers (medic, electrician, engineer) are volunteers with a verified badge.
 
@@ -151,6 +153,7 @@ Status: **Designed** = specified in DESIGN.md · **Prototype** = working in the 
 | Feature | Status |
 | --- | --- |
 | Volunteer profile with skills and assets (4x4, boat, lorry, generator, water pump) | Designed |
+| Volunteer applies to become a poster; admin approves | Designed |
 | Poster creates a post (in the example: school damage report → needs) | Prototype |
 | Admin approves a post before it goes live | Designed |
 | Post board matched on skills and assets, ranked fairly, with "why can't I join" reasons | Designed + Prototype (ranking) |
@@ -187,7 +190,7 @@ Status: **Designed** = specified in DESIGN.md · **Prototype** = working in the 
 
 ## 8. MVP demo script (3 minutes)
 
-1. **Post.** A flood hits Selangor. The principal of SK Kampung Batu Lima (poster) fills in the damage report; it becomes posts for cleanup, a 4x4 delivery and an electrician.
+1. **Post.** A flood hits Selangor. The principal of SK Kampung Batu Lima, already approved as a poster, fills in the damage report; it becomes posts for cleanup, a 4x4 delivery and an electrician.
 2. **Approve.** The admin approves the posts; they go live on the post board.
 3. **Profile.** Aina registers: skills Cleanup and Driving, asset **4x4**. Faiz registers as an **Electrician**, which shows "not yet checked".
 4. **Matching.** Aina's board puts the overlooked rural school's "Deliver supplies by 4x4" at the top, marked "Matches your 4x4". The viral urban school's cleanup is full and redirects.
@@ -223,7 +226,7 @@ Status: **Designed** = specified in DESIGN.md · **Prototype** = working in the 
 | Volunteer burnout | Hour caps, rest between shifts, coordinator fatigue view |
 | Predators accessing children (school scenario) | Child-safe badge, two-person rule, no photos of pupils |
 | Fake volunteers / looting | Poster accepts each volunteer; on-site check-in with the poster |
-| Fake sites or posts | Admin approves every post before it goes live |
+| Fake sites or posts | Only admin-approved volunteers can post; admin approves every post before it goes live |
 | Inflated hours for certificates | Hours only from check-in to check-out |
 | Cold start | Preparedness mode keeps volunteers trained and active between disasters |
 
