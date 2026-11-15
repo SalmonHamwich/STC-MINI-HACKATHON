@@ -1,202 +1,293 @@
-# Pulih: Design
+# SchoolBridge: Design and Interaction Specification
 
-How the Pulih prototype looks, is structured and behaves. Source: `pulih-prototype.html` (single file, vanilla HTML/CSS/JS, no build step). See [PRODUCT.md](PRODUCT.md) for what the product does and why.
+> **From flood to classroom, together.**
+
+How SchoolBridge looks, is structured and behaves. It is a **disaster recovery and volunteer dispatch platform for schools**: schools report damage, coordinators verify it, volunteers and donors are dispatched fairly and safely, and every school is tracked until it reopens.
+
+- [PRODUCT.md](PRODUCT.md): what the product does and why, the recovery cycle, features and demo script.
+- [VISUAL-DESIGN.md](VISUAL-DESIGN.md): screen sketches, layout and base visual tokens. This file adds the disaster-recovery layer on top of it and wins where they differ.
+- `pulih-prototype.html`: earlier working prototype. Its fairness, trust, safety and reopening logic is the reference behavior to rebuild in this design.
 
 ---
 
 ## 1. Design principles
 
-1. **General first, specific second.** Navigation and visuals separate the core platform from modes. A mode reuses core components and only adds what it needs.
-2. **Urgency at a glance.** State is shown by form (pills, stripes, meters), not only by numbers.
-3. **Calm under stress.** Users may be exhausted or in danger. Plain words, large targets, one clear action per card.
-4. **Fairness is visible.** Overlooked places are always marked and ranked higher; full tasks always point somewhere else.
-5. **Safety is never hidden.** Trust tiers, risk and check-in status sit on the surface, not in menus.
+1. **Disaster context, calm delivery.** It is always clear that a disaster is happening and which phase a school is in, but the tone is a reassuring person explaining the next step. No panic language, no countdowns, no images of victims or destruction aimed at children.
+2. **Urgency at a glance.** Phase, severity and risk are shown by form (banner, pills, stage dots, meters) and always by text, never by color alone.
+3. **Fairness is visible.** Overlooked schools are always marked and ranked higher. Full missions always point somewhere else.
+4. **Safety is never hidden.** Trust levels, risk, professional-only work and check-in status sit on the card, not in menus.
+5. **AI drafts, people decide.** Every AI output is labelled "Demo AI suggestion", editable, and waits for a coordinator.
+6. **One clear action per step.** Large controls, plain words, predictable Home and Back.
 
 ---
 
-## 2. Information architecture
+## 2. Visual direction
 
-```
-Header: Pulih · tagline · [Peacetime | Disaster mode]
-Tabs:
-  CORE PLATFORM               SCHOOL MODE
-  Find tasks                  School recovery
-  Post needs
-  Coordinator
-Banner: current mode status
-Main: view content
-```
+Base palette, type and spacing come from VISUAL-DESIGN.md: warm ivory background, forest green actions, soft sage panels, 18 px body text, 52 px buttons. On top of it, SchoolBridge adds a **disaster status layer** so users always know the situation.
 
-| Route (hash) | View | Primary user | Layout |
-| --- | --- | --- | --- |
-| `#tasks` | Find tasks | Volunteer | Feed (left) + profile and my tasks (right, 340px) |
-| `#post` | Post needs | Site coordinator | Two even columns: need form · sites and live needs |
-| `#dashboard` | Coordinator | Agency / NGO | KPI row → alerts → sites table · fairness simulation |
-| `#school` | School recovery | Principal / education dept | School picker → walkthrough · tracker, needs board, rules |
+### 2.1 Base tokens (from VISUAL-DESIGN.md)
 
-Rules:
-- Core tabs use the **primary** underline; the school tab uses the **accent** underline, so modes are visually distinct.
-- New modes (homes, shelters, clinics) get their own tab group to the right of School mode.
-- Hash routes only use plain names (`#school`), never `#/path` or query strings.
-
----
-
-## 3. Visual language
-
-### 3.1 Color tokens
-
-Defined in `:root`; redefined for dark under `prefers-color-scheme: dark` and `[data-theme="dark"]`.
-
-| Token | Light | Dark | Use |
-| --- | --- | --- | --- |
-| `--bg` | `#eef2f1` | `#0f1719` | Page background |
-| `--surface` | `#ffffff` | `#172327` | Panels, cards, inputs |
-| `--ink` | `#15252c` | `#e4ecec` | Main text |
-| `--muted` | `#5a6b72` | `#9db0b4` | Secondary text, labels |
-| `--line` | `#d6dfdd` | `#2a3a3e` | Borders, meter tracks |
-| `--primary` | `#0d5a66` | `#5fb6c2` | Brand, main buttons, core tab, Verified tier |
-| `--primary-soft` | `#dcecee` | `#1c3a40` | Verified pill, active tier, avatar |
-| `--accent` | `#d9961a` | `#f0b445` | Overlooked/priority, school mode, key demo actions |
-| `--accent-soft` | `#fbefd6` | `#3a2f17` | Redirect notes, child-safe pill, rules box |
-| `--good` / `--good-soft` | `#2c8a57` / `#def1e5` | `#5cc98b` / `#17352a` | Open tier, peacetime, done stages, fair bars |
-| `--warn` | `#b8730e` | `#e8a03a` | Moderate damage, child-safe text |
-| `--crit` / `--crit-soft` | `#bf3b2a` / `#f8e1dd` | `#ef7a66` / `#3e1f1a` | Disaster mode, high risk, severe damage, alerts |
-
-Color meaning (keep consistent):
-- **Teal (primary)** = the platform and verified trust.
-- **Marigold (accent)** = priority and fairness: "look here, this place is overlooked".
-- **Green** = safe, open, done, peacetime.
-- **Red** = danger, disaster, overdue, severe.
-
-### 3.2 Typography
-
-| Role | Font | Size / weight |
+| Token | Value | Use |
 | --- | --- | --- |
-| Display (brand, headings, KPI numbers) | Sora | Brand 22/700 · H2 18/600 · H3 15/600 · KPI 26/700 |
-| Body | IBM Plex Sans | 15/400, line-height 1.5 |
-| Small / meta | IBM Plex Sans | 13 (`.small`), 12 for pills and labels |
-| Tab group labels | IBM Plex Sans | 11/600 uppercase, letter-spacing 0.08em |
-| Report | System monospace | 13 |
+| `--bg` | `#F8F9F4` | Page background |
+| `--ink` | `#183E35` | Headings and main text |
+| `--primary` | `#225B45` | Main next-step buttons, verified trust |
+| `--muted` | `#53685E` | Supporting text |
+| `--soft` | `#E9EFDF` | Progress panels, highlights |
+| `--line` | `#DCE4D9` | Dividers, meter tracks |
+| `--card` | `#FFFFFF` | Cards, inputs |
+| `--attention` | `#FFF5D9` | Inspection and safety notices |
 
-- Headings use `text-wrap: balance`.
-- Numbers that line up use `font-variant-numeric: tabular-nums` (`.num`).
+### 2.2 Disaster status tokens (new)
 
-### 3.3 Shape and spacing
-
-- Radius: panels 12px, cards and inputs 8 to 10px, pills fully rounded.
-- Gaps: 16px between panels, 12px inside panels, 6 to 8px between chips and meta items.
-- Max content width 1180px; side gutter 16px at all widths.
-- Borders 1px `--line`; emphasis via a 4px left stripe on priority task cards.
-
----
-
-## 4. Components
-
-| Component | Class | Description |
-| --- | --- | --- |
-| Panel | `.panel` | White surface, 1px border, 12px radius, vertical stack |
-| Task card | `.task` | Title, site meta, action on the right, meta row with tier pill + progress meter. `.prio` adds an accent left stripe; `.isfull` dims it and adds a redirect note |
-| Redirect note | `.redirect` | Accent-soft strip: "This one is full. X still needs N more… Help there instead" |
-| Pill | `.pill` + `.open` `.verified` `.child` `.priority` `.full` `.risk-high` `.type` | Status labels. Tier pills always use the same three classes |
-| Filter chip | `.chip[aria-pressed]` | Toggle filters; pressed = primary fill |
-| Meter | `.meter > i` | 6px progress bar; `.good` turns it green at 100% |
-| Button | `.btn` + `.ghost` `.warn` `.accent` `.sm` | Primary filled; ghost for secondary; warn for "I need help"; accent for demo/school key actions |
-| Profile | `.profile` + `.tiers` | Avatar initials, trust score, three tier boxes (active = `.on`) |
-| My task | `.mytask` + `.status.{accepted,onsite,done,overdue}` | Safety card with check-in/out and help actions |
-| KPI tile | `.kpi` (`.alert` turns the number red) | Big number + label |
-| Bar row | `.barrow` | Label · track · value. Used in fairness comparison (`.hot` red, `.fair` green) and needs lists |
-| Room row | `.room` | Room name · photo upload (`label.photo` wrapping a file input) · severity select, colored `.sev-Severe` / `.sev-Moderate` |
-| Steps | `.steps li` + `.done` | Numbered stage list; done = green dot with check |
-| Rules box | `.rules` | Accent-soft box listing site safety rules |
-| Toast | `.toast` | Bottom-center status message, `aria-live="polite"`, auto-hides after 3.6s |
-
-### Trust tier display
-
-| Tier | Label | Pill | Unlocks |
+| Token | Value (text on soft) | Meaning | Where |
 | --- | --- | --- | --- |
-| 0 | Open | green | Supervised group tasks |
-| 1 | Verified ID | teal | Homes, assets, clinics |
-| 2 | Child-safe | marigold | Tasks with pupils present |
+| `--alert` / `--alert-soft` | `#A8321F` / `#FBE4DF` | Active disaster, severe damage, overdue, "I need help" | Disaster banner, severe pill, safety alerts |
+| `--recovery` / `--recovery-soft` | `#8A5A00` / `#FFF0CC` | Recovery in progress, overlooked/priority, professional required | Phase pill, overlooked pill, inspection notice |
+| `--restored` / `--restored-soft` | `#2C7A4B` / `#E0F2E6` | Done, safe, reopened, Open trust level | Done stages, reopened badge |
+| `--prepare` / `--prepare-soft` | `#1F5F8B` / `#E1EEF7` | Preparedness mode, flood water level / informational | Preparedness banner, info notes |
 
-A task above the user's tier shows **"Unlock: <tier>"** instead of the accept button. Never hide locked tasks; showing them motivates verification.
+Color meaning stays fixed everywhere:
+- **Red** = active danger: disaster on, severe, overdue, help requested.
+- **Amber** = recovering and needs attention: overlooked school, inspection pending, professional required.
+- **Green** = done and safe: stage complete, checked out, reopened.
+- **Blue** = ready: Preparedness mode and information.
+
+Each pair must meet WCAG 2.2 AA (4.5:1) for text on its soft background; verify before release. In High contrast mode, statuses become bordered labels on dark surfaces.
+
+### 2.3 Imagery and icons
+
+- Hero illustration: a school with a receding waterline, volunteers carrying desks out, sun breaking through. It shows **recovery**, not destruction.
+- Icon set (always with a text label): water drop (flood), triangle (alert), shield (trust level), hard hat (professional required), check circle (done), map pin (location), clock (shift time), boat / lorry / pump (equipment).
+- Never show real pupils, damaged homes or injured people. Example photos in the demo are illustrations or empty rooms.
+
+### 2.4 Type, spacing, shape
+
+As VISUAL-DESIGN.md: Manrope headings, DM Sans body (system fallback offline), 18 px body, 8 px spacing rhythm, 20 to 26 px panel padding, 10 to 17 px radius. Numbers that line up use tabular figures.
 
 ---
 
-## 5. Key interaction patterns
+## 3. Information architecture
 
-**Fair feed ranking.** Open needs sort by priority (see PRODUCT.md §4.2); full needs drop to the bottom with a redirect to the best open alternative of the same kind the user can do.
-
-**Accept → check in → check out.**
 ```
-Accepted ──Check in──▶ On site (expected back by HH:MM) ──Check out──▶ Done (+10 trust)
-                              │
-                              ├─Simulate overdue──▶ Overdue → alert on Coordinator
-                              └─I need help──────▶ alert on Coordinator
+Accessibility bar: Larger text · High contrast · Read aloud · Bahasa / English
+Header:  SchoolBridge · [Simple Mode]
+Nav:     Home · Find a mission · Give supplies · Coordinator
+Status:  DISASTER BANNER (always visible while an alert is active)
+Main:    screen content, with Home and Back on task screens
 ```
-Supplies are pledged, not checked in.
 
-**Verification.** Verify ID is instant in the prototype (real: MyKad + liveness). Child-safe shows a pending state ("3 to 5 days") with a demo approve button.
+**Disaster banner** (red in Disaster mode, blue in Preparedness mode), one line, never dismissible during an alert:
 
-**Mode switch.** The header toggle swaps the banner (red disaster / green peacetime), the feed content and the dashboard data. The viral simulation is disabled in peacetime with an explanation.
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ ⚠ FLOOD ALERT · Selangor · Day 3 of recovery                 │
+│ 12 schools affected · 4 used as evacuation centers  [Details]│
+└──────────────────────────────────────────────────────────────┘
+```
 
-**School walkthrough.** Adding a photo auto-fills an AI severity suggestion (simulated), labelled as such and editable. "Generate needs list" maps Moderate/Severe rooms to needs and regenerates without losing progress already filled.
+| Route | Screen | Primary user |
+| --- | --- | --- |
+| `#home` | Welcome and role choice | Everyone |
+| `#school` | School overview and reopening tracker | School staff, education dept |
+| `#report` | Guided damage report (5 steps) | School staff |
+| `#suggested` | Suggested missions after a report | School staff |
+| `#profile` | Volunteer profile and verification | Volunteer |
+| `#missions` | Mission board | Volunteer |
+| `#mission` | Mission detail and request | Volunteer |
+| `#safety` | My missions and safety check-in | Volunteer |
+| `#supplies` | Give supplies | Donor |
+| `#learning` | Learning-continuity planner | School staff |
+| `#coordinator` | Coordinator dashboard | Coordinator |
 
-**Reopening tracker.** Stages 2, 3 and 5 complete automatically from data; 1 and 4 are manual toggles. "Reopen and notify parents" enables only when stages 1 to 5 are done.
-
-**Demo shortcuts.** Every flow has a clearly labelled "(demo)" or "Simulate…" control so a pitch can run in 2 minutes.
-
----
-
-## 6. Content and voice
-
-- Write from the user's side: "I'll help", "Check out safely", "Help there instead".
-- Controls say exactly what happens: "Reopen and notify parents", not "Submit".
-- Mark simulation honestly: "(simulated)", "(demo)", and the footer note.
-- Use local, recognizable names and places in examples (SK = Sekolah Kebangsaan, Kampung, Dewan, Klinik Desa). All example data is fictional.
-- No emoji as markers; no jargon like "beneficiary" in the volunteer UI.
-
----
-
-## 7. Accessibility
-
-- Visible focus ring (`3px solid --accent`) on every control.
-- Tabs use `aria-current="page"`; toggles and chips use `aria-pressed`.
-- Every form control has a label; file inputs and selects have room-specific `aria-label`s.
-- Toast is `role="status"` with `aria-live="polite"`.
-- Color is never the only signal: pills carry text, stages carry checkmarks.
-- Transitions only under `prefers-reduced-motion: no-preference`.
-- Layout collapses to one column below 860px; KPI grid to two columns below 700px.
+Hash routes use plain names only.
 
 ---
 
-## 8. Data model (prototype)
+## 4. Screens
+
+Layouts for screens 1 to 10 follow the sketches in VISUAL-DESIGN.md; the changes below make each one part of the disaster recovery cycle.
+
+### 4.1 Welcome and role choice
+- Disaster banner on top. Headline: "Schools are recovering from the flood. Here's how you can help."
+- Three role cards: **I'm from a school** (report damage and track recovery), **I want to volunteer** (share time, skills or equipment), **I'm a coordinator** (verify reports and dispatch help).
+- Below: "Recovery so far" strip (schools affected, missions filled, schools reopened). Hidden in Simple Mode.
+
+### 4.2 School overview
+- School name, location, pupils, and a **phase pill**: Alert · Assessing · Recovering · Inspection · Reopened.
+- Tags when true: "Evacuation center", "Overlooked, priority" (amber), "Exam-year pupils".
+- **Reopening tracker**: the six stages from PRODUCT.md §5.2 as numbered dots; done = green check. Stages 2, 3 and 5 complete from data; 1 and 4 are coordinator toggles. "Reopen and notify parents" enables only when stages 1 to 5 are done.
+- Two planning scores with their denominators, plus the line "Planning indicators only. They do not certify safety or approve reopening."
+- Main action: **Report damage or needs**. Second path: **Keep learning going**.
+
+### 4.3 Guided damage report (5 steps)
+1. **School and disaster:** school, disaster type (flood, landslide, storm), "Is the school being used as an evacuation center?"
+2. **Damage by room:** one row per area (classrooms by block, library, science lab, computer lab, toilets, canteen, field) with severity None / Light / Moderate / Severe (text + color).
+3. **Needs:** large checkbox rows: classroom cleanup, furniture and supplies, electricity inspection, building inspection, water and sanitation, temporary learning space, "Not sure, please help". Rooms marked Moderate or Severe pre-tick matching needs.
+4. **Photos (optional):** "Only take photos from a safe place. Do not enter damaged buildings." Adding a photo shows a "Demo AI suggestion: Severe" that the user can change.
+5. **Review:** everything above, then **Submit report for review**.
+
+Back keeps all answers. An empty needs step explains what to do without clearing the form.
+
+### 4.4 Suggested missions
+- Header: "Report sent to the coordinator." Missions are listed as **Demo AI suggestion · Waiting for coordinator review**.
+- Electrical and structural missions carry the amber **Qualified professional required** pill with a hard-hat icon.
+- Each suggestion shows quantity, required trust level and risk.
+- A **damage report for the education department** is generated and can be copied.
+
+### 4.5 Volunteer profile and verification
+- Name (optional), area, availability, skills, equipment (4x4, boat, lorry, generator, water pump).
+- **Trust level panel** with three boxes: Open (supervised group tasks), Verified ID (equipment, deliveries, inspections), Child-safe (tasks with pupils). Current level highlighted; next step offered: "Verify my ID (MyKad), 2 minutes" or "Request child-safe clearance, 3 to 5 days". Verification is simulated in the demo and labelled.
+- Professional skills show "Self-reported, not yet checked".
+- Main action: **Save profile and find missions**.
+
+### 4.6 Mission board
+- Title: "Where help is needed most". Subtitle: "Sorted by unmet need, not by popularity."
+- Filters: All · Matches for me · Hands-on · Equipment · Deliveries · Professional.
+- **Mission card**: title, school, area, time, requirements, places left with a meter, trust level pill, risk pill when high, "Overlooked, priority" pill and amber left stripe when the school is overlooked.
+- Card action: **View mission**; locked missions show **Unlock: Verified ID** instead (never hidden); full missions are dimmed with a redirect strip: "This one is full. SK Kampung Batu Lima still needs 21 more for mud cleanup. **Help here instead**."
+
+### 4.7 Mission detail
+- What, where, meeting point, shift time, what to bring, safety rules for the site (child-safe rules on school sites), required trust level.
+- Action: **Request to join**. Status after: "Waiting for coordinator approval".
+
+### 4.8 Safety check-in
+State flow:
+
+```
+Requested ─approve─▶ Approved ─Check in─▶ On site (back by 12:00) ─Check out─▶ Done
+                                              │
+                                              ├─ no check-out by due time ─▶ Overdue → coordinator alert
+                                              └─ I need help ──────────────▶ Help alert → coordinator
+```
+
+- Big buttons: **Check in, I am with the coordinator** / **Check out, I have left safely**, each with a confirmation dialog.
+- **I need help** is always visible while on site, in red, with a confirmation that names who will be told.
+- Demo label: "This demo does not track location or send real alerts."
+
+### 4.9 Give supplies
+- Supply cards per school, ranked by unmet need like missions: item, school, pledged / needed meter, **Offer**.
+- Offer dialog: quantity (1 to remaining), drop-off point, confirmation.
+- Each pledge shows its stage: Offered → Accepted → Delivered → Received. Only "Received" counts toward reopening stage 5.
+- "No money is collected."
+
+### 4.10 Learning-continuity planner
+- Options: nearby partner school, community hall or evacuation center classroom, printed take-home packs, online lessons (internet needed). Exam-year pupils are flagged first.
+- Review dialog, save as **Draft**. Drafts never raise the Education Continuity Score; only confirmed arrangements do.
+
+### 4.11 Coordinator dashboard
+- KPI row: schools affected, missions filled %, volunteers on site, safety alerts (red when above 0).
+- **Safety alerts** panel at the top when any exist: overdue check-outs and help requests, each with **Mark resolved**.
+- **Schools, least helped first**: table with phase pill, overlooked tag, filled meter. Schools with no missions yet show "Not assessed" and sort to the top only if affected.
+- **Reports to review**: approve → missions publish to the mission board; mark professional-only work.
+- **Volunteer requests**: approve or decline; approval unlocks the volunteer's check-in.
+- **Fairness simulation**: "A post about SK Taman Seri Bayu goes viral: 40 volunteers". Side-by-side bars: without SchoolBridge (all 40 to one full school) vs. with SchoolBridge (capped and spread to open needs). Runs once per demo; Reset restores it.
+
+### 4.12 Preparedness mode
+- Header switch: **Disaster mode / Preparedness mode**. Banner turns blue: "No active alert. Small one-hour tasks keep schools ready."
+- Mission board shows preparedness tasks: clear school drains, move library books upstairs, back up school records, check the emergency kit, run a flood drill.
+- Fairness simulation is disabled with an explanation.
+
+---
+
+## 5. Components
+
+| Component | Description |
+| --- | --- |
+| Disaster banner | Full-width status strip, red (disaster) or blue (preparedness), icon + text |
+| Phase pill | Alert · Assessing · Recovering · Inspection · Reopened |
+| Severity pill | None · Light · Moderate · Severe; text always shown |
+| Trust pill | Open (green) · Verified ID (forest) · Child-safe (amber) |
+| Professional pill | Amber with hard-hat icon: "Qualified professional required" |
+| Overlooked pill | Amber: "Overlooked, priority"; adds a 4 px left stripe to cards |
+| AI label | Muted outline: "Demo AI suggestion, check and change if wrong" |
+| Mission card | Title, school, meta row, meter, pills, one action, optional redirect strip |
+| Redirect strip | Amber-soft: "This one is full. X still needs N… Help here instead" |
+| Meter | 8 px progress bar with a text value beside it; green at 100% |
+| Stage list | Numbered dots; done = green check; manual stages show Mark done / Undo |
+| Safety card | Mission, status label, check-in / check-out / I need help |
+| KPI tile | Big number + label; alert variant in red |
+| Confirmation dialog | Native `<dialog>`, focus trapped, Cancel and one primary action |
+| Toast | Bottom-center, `role="status"`, states exactly what changed |
+
+---
+
+## 6. Accessibility and inclusion
+
+Carried over from the original SchoolBridge spec:
+
+| Control | Behavior |
+| --- | --- |
+| Larger text | Increase text size; panels and controls grow, nothing is hidden |
+| High contrast | Dark surfaces, light text, statuses as bordered labels |
+| Simple Mode | Hide illustration, statistics and extras; keep banner and main action |
+| Read aloud | Browser speech synthesis with a visible Stop control |
+| Language | Bahasa Melayu and English; Chinese and Tamil later |
+| Keyboard focus | 3 px visible outline on every control |
+| Errors | Specific text next to the field; never clear answers |
+| Confirmations | Before reports, pledges, plans and safety changes |
+
+- Targets: WCAG 2.2 AA contrast, keyboard operation, logical reading order, reflow at 200% zoom.
+- Minimum touch targets 44 × 44 px; main buttons 52 px high.
+- Animation only under `prefers-reduced-motion: no-preference`. No countdowns or time limits.
+- Works on a low-end phone on a weak connection: one HTML file, system font fallback, no required images.
+
+---
+
+## 7. Content and voice
+
+- Plain, calm and specific: "What does your school need?", "Help here instead", "Check out, I have left safely".
+- Name the disaster plainly ("Flood alert, Selangor") but don't dramatize it.
+- Say "Sent for review" when something still needs approval; never imply AI or a score confirmed safety.
+- Mark every simulated action: "(demo)", "Demo AI suggestion", "simulated".
+- Use local, recognizable names (SK = Sekolah Kebangsaan, SJK(C), Kampung, Dewan). All example data is fictional.
+
+---
+
+## 8. Responsive layout
+
+- **Wide (≥ 1024 px):** welcome in two columns with three role cards in a row; coordinator in a main column plus sidebar (alerts, requests).
+- **Medium (700 to 1023 px):** nav wraps; dashboard panels stack.
+- **Small (< 700 px):** single column, full-width actions, banner wraps to two lines, KPI tiles in a 2 × 2 grid.
+- The order of tasks never changes between sizes. No hover-only actions.
+
+---
+
+## 9. Data model (prototype)
 
 ```js
-site  = { id, name, type: 'school'|'home'|'shelter'|'clinic', area, overlooked, verifiedBy, mine }
-need  = { id, site, title, kind: 'people'|'asset'|'supply', qty, filled, tier: 0|1|2,
-          risk: 'low'|'medium'|'high', when, phase: 'disaster'|'peace' }
-me    = { name, tier, score, done, assets[], childPending }
-myTask = { id, need, status: 'accepted'|'onsite'|'overdue'|'done', due }
-school[siteId] = { sev{room}, photos{room}, aiTagged{room}, generated, evacuees, inspection, reopened }
+event    = { id, type: 'flood'|'landslide'|'storm', area, day, mode: 'disaster'|'prepare' }
+school   = { id, name, area, pupils, overlooked, evacuationCenter, examYear, verifiedBy,
+             phase, stages: { evacuees, inspection, reopened } }
+report   = { id, school, disaster, rooms: { [room]: { severity, photos, aiTagged } },
+             needs: [], status: 'draft'|'submitted'|'approved' }
+mission  = { id, school, title, kind: 'people'|'equipment'|'supply', qty, filled,
+             trust: 0|1|2, risk: 'low'|'medium'|'high', professional, when, phase: 'disaster'|'prepare',
+             source: 'seed'|'report' }
+volunteer= { name, area, availability, skills: [], equipment: [], trust, childPending, score }
+myMission= { id, mission, status: 'requested'|'approved'|'onsite'|'overdue'|'done', due }
+pledge   = { id, mission, qty, status: 'offered'|'accepted'|'delivered'|'received' }
+alert    = { id, myMission, kind: 'overdue'|'help', resolved }
+plan     = { school, options: [], status: 'draft'|'confirmed' }
 ```
 
-State lives in memory and resets on reload. A real build would move this to a backend with per-role access control (volunteers see a home's exact address only while assigned).
+- State lives in memory and may persist to `localStorage`; a **Reset demo** control restores sample data.
+- If a report update removes a mission someone has joined, the joined mission stays in "My missions" as "Cancelled by school" instead of disappearing.
+- Alerts are linked to a specific `myMission`, so resolving one never clears another, and repeated taps never duplicate an alert.
 
 ---
 
-## 9. Extending to a new mode
+## 10. Prototype boundaries
 
-To add a mode (e.g. Homes):
-1. Add the site type to `SITE_TYPES` and a filter chip.
-2. Add a tab group to the right of School mode with its own accent.
-3. Reuse panels, task cards, meters, steps and rules box; add only mode-specific rules (e.g. in-home tasks require Verified ID and two volunteers).
-4. Feed the mode's needs into the same `needs` list so they rank in Find tasks with everything else.
+- No backend, real sign-in, real AI, credential checks, photo storage, messaging, location tracking or live dispatch. Roles are navigation choices, not security.
+- All schools, missions and numbers are sample data. Do not enter real child records, contact details, health information or sensitive photos.
+- Production needs role-based access (exact addresses visible only to assigned volunteers), audited changes, dated and timezone-aware shifts, reliable escalation for overdue and help alerts, secure uploads and agreed responsibilities with inspection, safeguarding and education partners.
 
 ---
 
-## 10. Known gaps
+## 11. Before a live pilot
 
-- No real backend, auth, AI or notifications.
-- No offline/SMS, no WhatsApp intake, single language (English).
-- Asset needs exist, but volunteers' registered assets aren't matched automatically yet.
-- Dashboard "volunteers on site" includes a fixed example baseline.
+- Usability sessions with school staff, older adults, people new to technology and supervised pupils.
+- Audit keyboard, screen reader, zoom, mobile, contrast and error recovery.
+- Validate score calculations against confirmed records, with evidence and dates.
+- Agree who signs off safety inspections and reopening with JKR, the district education office and NGO partners.
