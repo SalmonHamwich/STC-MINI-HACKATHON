@@ -1,61 +1,63 @@
 # SchoolBridge: Product
 
-> **From flood to classroom, together.**
-> Verified needs. Safe help. Fair recovery. Ready before the next disaster.
+> **The right volunteer, with the right skills and equipment, sent safely to where help is needed.**
 
-SchoolBridge is a **disaster recovery and volunteer dispatch platform for schools**. When a flood, landslide or storm damages a school, SchoolBridge turns the damage into verified needs, dispatches the right volunteers, equipment and supplies safely and fairly, and tracks the school until pupils are back in class.
+SchoolBridge is a **disaster volunteer dispatch platform**. Its base idea is **skill-based volunteer matching**: volunteers register what they can do *and* what they can bring (a 4x4, a boat, a generator), and SchoolBridge dispatches them to verified needs after a natural disaster, keeps them safe while they work, and recognizes the hours they give.
 
-Schools are the starting point because they are the heart of a community after a disaster: they double as evacuation centers, children lose learning time every day they stay closed, and recovery is slow and unequal. The same engine (sites, needs, responders, trust, safety, fairness) can later serve homes, shelters and clinics.
+**Example scenario: school recovery after a flood.** To show the platform end to end, the prototype follows schools damaged by a flood. A school is one kind of site that requests help; the dispatch engine is the same for homes, relief centers and clinics. See §6.
 
-See [DESIGN.md](DESIGN.md) for screens and behavior, and [VISUAL-DESIGN.md](VISUAL-DESIGN.md) for layout sketches and visual tokens.
+See [DESIGN.md](DESIGN.md) for screens and behavior, and [VISUAL-DESIGN.md](VISUAL-DESIGN.md) for layout sketches and base visual tokens.
 
 ---
 
 ## 1. Problem
 
-After every flood, help is fast but chaotic, and unfair. It flows to whoever is loudest online, and quiet places wait the longest.
+After every natural disaster, thousands of people want to help, but help is chaotic, unsafe and wasted.
 
-**Volunteer chaos**
-- Thousands of people coordinate through WhatsApp, Telegram and Facebook groups.
-- Requests get buried, duplicated or go stale. A viral school gets too many volunteers while others get none.
-- Nobody verifies who is helping, checks whether they are safe around children, or tracks whether volunteers get home safely.
-
-**Slow, unequal school recovery**
-- Mud, destroyed furniture, textbooks and equipment, plus hidden hazards: wiring, structure, mold, contaminated water.
-- Schools are used as evacuation centers, which delays cleanup.
-- Damage reports, approvals and inspections are slow and manual.
-- Well-known urban schools receive more donations than they can use; rural schools get little, or the wrong items.
-- Pupils lose learning time, and teachers are often disaster victims themselves.
-
-**How it was handled before:** NGO volunteer corps (safe but closed), reception centers (paper bottlenecks), government command (built for organizations, not individuals), community groups (isolated), chat groups and spreadsheets (fast but unverified and messy). People rebuild the same improvised system in every disaster, then it disappears.
+- **Wrong people, wrong place.** Volunteers coordinate in WhatsApp, Telegram and Facebook groups. A site that needs an electrician gets twenty people with buckets; a flooded village that needs a boat gets nobody.
+- **Equipment is invisible.** The person with a 4x4, a boat or a generator is just another name in a chat group.
+- **Unverified helpers.** Nobody checks who is a real medic, electrician or engineer, or who is safe around children.
+- **Unsafe deployments.** Volunteers walk into floodwater and damaged buildings without basic training, and nobody notices if they don't come back.
+- **Burnout.** The most willing volunteers work until they collapse, then quit.
+- **No recognition.** Hours go unrecorded, so volunteers get nothing for their CV and companies can't prove their community impact.
 
 ---
 
-## 2. The disaster recovery cycle
+## 2. The idea: volunteer dispatch
 
-SchoolBridge follows a school through every phase of a disaster. Each phase has a clear owner and a visible finish line.
+Base idea: **skill-based volunteer matching**. Features are grouped by priority, following the original idea:
 
-| Phase | What happens | Main user | Done when |
-| --- | --- | --- | --- |
-| **1. Alert** | A flood alert switches the platform to Disaster mode. Affected schools are listed; schools used as evacuation centers are marked. | Coordinator | Affected schools are known |
-| **2. Assess** | The school reports damage room by room, with optional photos taken from a safe place. AI drafts severity and needs (labelled, editable). | School staff | Damage report submitted |
-| **3. Verify** | A coordinator reviews the report, approves missions and flags work that needs a qualified professional. | Coordinator | Missions published |
-| **4. Dispatch** | Volunteers, equipment and supplies are matched to missions, ranked by unmet need so overlooked schools come first. | Volunteer, donor | Missions filled |
-| **5. Restore** | Volunteers check in and out of every shift; cleanup, inspections and deliveries are tracked. | Volunteer, coordinator | Cleanup and inspection complete |
-| **6. Reopen** | The reopening tracker reaches its last stage; parents are notified. Learning continues elsewhere until then. | School, education department | School reopened |
-| **7. Prepare** | Preparedness mode keeps volunteers active and verified between disasters. | Everyone | Ready for the next alert |
+| Priority | Feature | What it does |
+| --- | --- | --- |
+| **Core (MVP)** | **Skill and asset profiles** | Volunteers list skills (cleanup, driving, first aid, teaching, electrician, engineer, medic) and assets (4x4, boat, lorry, generator, water pump). Missions are matched on both. |
+| **Core (MVP)** | **Safety check-in and check-out** | Volunteers check in on arrival and out when they leave. If they are overdue, the coordinator is alerted. An "I need help" button is always visible on site. |
+| **Differentiator** | **Micro-training** | Two-minute video modules ("Safe flood cleanup", "Psychological first aid", "Working around electricity") that must be completed before a mission that requires them. |
+| **Differentiator** | **Verification badges** | Medics, electricians and engineers whose credentials have been checked get a badge. Professional missions require the badge. |
+| **Differentiator** | **Burnout tracking** | Caps shift hours per day and week, enforces rest between shifts, and prompts volunteers to rest. |
+| **Growth** | **Corporate volunteering programs** | Companies send teams and receive verified-hours reports. A B2B revenue path. |
+| **Growth** | **Reputation and recognition** | Verified hours, certificates and badges volunteers can add to their CV. |
+
+### 2.1 The dispatch loop
+
+```
+Site posts a need ─▶ Coordinator verifies ─▶ Matched to volunteers (skills + assets + badges + training + rest)
+      ▲                                                     │
+      │                                                     ▼
+Hours, certificate,  ◀── Check out safely ◀── Check in ◀── Volunteer requests, coordinator approves,
+reputation                (overdue → alert)                  required training done
+```
 
 ---
 
 ## 3. Product principles
 
-1. **Recovery first, school-shaped.** Every feature serves getting a damaged school safely back to learning.
-2. **Verified needs, not noise.** Needs come from the school and are verified by a coordinator or authority.
-3. **Fair by default.** Help is routed by unmet need, not by visibility. Overlooked schools rank higher.
-4. **Safe for helpers and children.** Trust levels, check-in and check-out, and child-safe rules are on the surface, never hidden.
-5. **AI drafts, people decide.** AI may organize reports and suggest tasks. It never certifies a building as safe, verifies credentials or approves reopening.
-6. **Works for everyone under stress.** Plain words, large controls, low bandwidth, multilingual, usable by older adults and people new to technology.
-7. **Plug in, don't replace.** Work with NGOs, agencies (e.g. NADMA, APM), the education department and existing chat habits.
+1. **Match on what people can do and bring.** Skills and assets, not just headcount.
+2. **Safety before speed.** Training, badges and check-in sit in front of every risky mission, never behind a menu.
+3. **Verified, not self-declared, for professional work.** A self-reported electrician is shown as "not yet checked" and can't take electrical missions.
+4. **Protect volunteers from themselves.** Rest is part of the plan, not an afterthought.
+5. **Fair by default.** Overlooked sites rank higher than viral ones; full missions redirect to open ones.
+6. **Recognize every hour.** Verified hours turn into certificates for volunteers and impact reports for companies.
+7. **Works under stress.** Plain words, large controls, low bandwidth, Bahasa Melayu and English, usable by people new to technology.
 
 ---
 
@@ -63,14 +65,11 @@ SchoolBridge follows a school through every phase of a disaster. Each phase has 
 
 | User | Job to be done | Primary screens |
 | --- | --- | --- |
-| School staff (principal, teacher) | Report damage and get exactly what my school needs | School overview, Damage report, Learning plan |
-| Volunteer | Find where I'm needed, help safely, get home safely | Volunteer profile, Mission board, Safety check-in |
-| Donor / company | Give what's actually needed and see it arrive | Give supplies |
-| Recovery coordinator (NGO, agency, district) | See every affected school, approve missions, spot gaps and safety issues | Coordinator dashboard |
-| Education department | Track each school's recovery and reopening | School overview, Coordinator dashboard |
-| Parent / pupil | Know where learning continues and when school reopens | School overview (read-only), notifications (later) |
-
-Children may view school progress and learning arrangements. Taking part in recovery work requires a responsible adult and coordinator approval.
+| Volunteer | Find missions that fit my skills and equipment, get trained, help safely, get home safely, get credit | Profile, Training, Mission board, Safety check-in, My hours |
+| Professional volunteer (medic, electrician, engineer) | Get verified once, then be sent where my skills matter | Profile, Verification |
+| Site requester (in the example: school principal) | Ask for exactly the people and equipment we need | Post a need (school damage report in the example) |
+| Coordinator (NGO, agency, district) | Verify needs, approve volunteers, watch safety and fatigue, redirect help | Coordinator dashboard |
+| Company (HR / CSR lead) | Send teams, track their verified hours, get an impact report | Corporate team page |
 
 ---
 
@@ -78,171 +77,182 @@ Children may view school progress and learning arrangements. Taking part in reco
 
 | Concept | Definition |
 | --- | --- |
-| **Disaster event** | An alert (e.g. "Flood, Selangor") that switches the platform to Disaster mode and groups affected schools. |
-| **School** | A verified site (school code). Has location, pupil count, an `overlooked` flag, and whether it is in use as an evacuation center. |
-| **Damage report** | Room-by-room severity (None, Light, Moderate, Severe), optional photos and a needs list. Drafts AI suggestions; reviewed by a coordinator. |
-| **Mission** | An approved need: volunteers, equipment (boat, lorry, 4x4, pump, generator) or supplies. Has quantity, filled count, required trust level, risk level, time and requirements. |
-| **Volunteer** | Skills, equipment, area, availability, trust level and safety history. Professional skills are self-reported until reviewed. |
-| **Trust levels** | 0 Open (supervised group tasks) · 1 Verified ID (equipment, inspections, deliveries) · 2 Child-safe (tasks with pupils present). |
-| **Safety layer** | Request → approval → check-in → check-out, expected return time, overdue follow-up and an "I need help" button. |
-| **Fair ranking** | Orders open missions by unmet share, weighted up for overlooked schools and urgent risk. Full missions point to an open one. |
-| **Recovery tracker** | Six reopening stages per school, plus two planning scores (Recovery, Education Continuity). |
+| **Disaster event** | A natural disaster alert (flood, landslide, storm) that switches the platform to Disaster mode. |
+| **Site** | A verified place that needs help. Types: school, home, relief center, clinic. Has an `overlooked` flag. |
+| **Need / Mission** | A verified request: number of people, required skills, required assets, required badge, required training, trust level, risk, shift time and length. |
+| **Volunteer profile** | Skills, assets, area, availability, badges, completed training, trust level, hours worked, rest status. |
+| **Trust level** | 0 Open (supervised group tasks) · 1 Verified ID (assets, homes, deliveries) · 2 Child-safe (tasks with children present). |
+| **Verification badge** | Checked credential: Medic, Electrician, Engineer. Separate from trust level. |
+| **Training module** | A two-minute video plus a short check. Valid for 12 months. |
+| **Shift** | A dated block of time on a mission with expected check-out time. |
+| **Safety status** | Requested → Approved → On site → Checked out; or Overdue / Help requested. |
+| **Rest status** | Hours today and this week vs. caps; time since last shift. |
+| **Verified hours** | Hours between check-in and check-out, confirmed by the coordinator. |
+| **Team** | A group of volunteers under a company or organization. |
 
-### 5.1 Fair ranking rule (prototype)
+### 5.1 Matching rule (prototype)
+
+A volunteer can **join** a mission only if all hard rules pass:
+- Has every required skill **or** asset listed as "must have"
+- Has the required badge (professional missions)
+- Has completed the required training
+- Has the required trust level
+- Is within rest limits after this shift (see 5.2)
+
+Missions that fail a rule stay visible with the reason and the fix: "Complete 'Safe flood cleanup' (2 min)", "Needs a verified Electrician badge", "You've worked 8 hours today. Rest first."
+
+Among missions a volunteer can join, the board ranks by:
 
 ```
-priority = (unmet / qty) × (overlooked ? 1.6 : 1) × (risk == high ? 1.2 : 1)
+priority = (unmet / qty) × (overlooked ? 1.6 : 1) × (risk == high ? 1.2 : 1) × (match ? 1.5 : 1)
 ```
 
-- The mission board sorts open missions by priority; full missions drop to the bottom with a "Help here instead" suggestion.
-- When a post goes viral, extra volunteers for a full school are capped and redirected to open, overlooked missions; the rest go on standby.
+`match` is true when the volunteer brings an asset or skill the mission lists as needed. Full missions drop to the bottom with "Help here instead".
 
-### 5.2 Reopening stages
+### 5.2 Burnout rules (prototype defaults)
 
-1. Evacuees relocated (if the school was an evacuation center)
-2. Damage assessed (report reviewed)
-3. Cleanup complete (all cleanup missions filled and checked out)
-4. Safety inspection passed (electrical, structure, water) by a qualified professional
-5. Furniture and supplies in (at least 80% delivered, not just pledged)
-6. School reopened, parents notified
-
-**Recovery Score** = share of recovery tasks complete. **Education Continuity Score** = share of pupils with a *confirmed* learning arrangement. Both are planning indicators: they never certify safety or permit reopening, and drafts never raise them.
-
-### 5.3 Modes
-
-| Mode | Purpose |
+| Rule | Default |
 | --- | --- |
-| **Disaster mode** | Triggered by an alert. Red status banner, affected schools and disaster missions first, vulnerable schools (evacuation centers, rural, exam-year) checked first. |
-| **Preparedness mode** | Between disasters. Small one-hour tasks: clear school drains, move library books upstairs, back up school records, run a flood drill. Keeps volunteers verified and active, and solves the cold-start problem. |
+| Max hours per day | 8 |
+| Max hours per 7 days | 40 |
+| Min rest between shifts | 10 hours |
+| Rest prompt | After 4 hours on site: "Take a 15-minute break and drink water" |
+| Max consecutive days | 5, then one rest day |
+
+Coordinators see volunteers near their limits. Caps can be raised only by a coordinator, with a reason.
 
 ---
 
-## 6. Features
+## 6. Example scenario: school recovery after a flood
 
-Status: **Designed** = specified in DESIGN.md and VISUAL-DESIGN.md · **Prototype** = working in the earlier `pulih-prototype.html`, to be rebuilt in the SchoolBridge design · **Later** = after the hackathon.
+The prototype's demo data follows a flood in Selangor that damages several schools. Schools were chosen because they are often used as evacuation centers, children lose learning time every day they stay closed, and recovery needs a mix of skills (cleanup, electricians, engineers, drivers) and assets (lorries, pumps, generators).
 
-### 6.1 Assess and verify
+**Sample sites**
+- **SK Kampung Batu Lima**, Hulu Langat (rural, overlooked): needs 25 cleanup volunteers, a lorry, a water pump, an electrician.
+- **SK Taman Seri Bayu**, Shah Alam (urban, viral): cleanup is already full.
+- **Dewan Kampung Sungai Lui** (relief center): kitchen helpers, a boat with operator.
+- **Klinik Desa Batu 14** (clinic): disinfection crew, a generator.
+
+**What the school adds on top of the engine**
+- A guided **damage report** (room by room) that turns into needs: Severe classroom → cleanup crew + desks; computer lab → verified Electrician; field → lorry.
+- **Child-safe rules**: tasks with pupils present need Child-safe trust; no one alone with a pupil; no photos of pupils.
+- A **reopening tracker** (evacuees relocated → damage assessed → cleanup done → inspection passed → supplies in → reopened) that shows the effect of dispatch.
+
+The scenario is replaceable. Another demo could use a landslide hitting a village, using the same screens.
+
+---
+
+## 7. Features and status
+
+Status: **Designed** = specified in DESIGN.md · **Prototype** = working in the earlier `pulih-prototype.html`, to rebuild in this design · **To build** = not in any prototype yet · **Later** = after the hackathon.
+
+### 7.1 Core (MVP)
 
 | Feature | Status |
 | --- | --- |
-| Welcome screen with active disaster banner and role choice (school, volunteer, coordinator) | Designed |
-| Guided damage report: school and disaster type → room-by-room damage → needs → photos → review | Designed + Prototype |
-| AI severity and needs suggestions, labelled "Demo AI suggestion", editable | Designed + Prototype (simulated) |
-| "Qualified professional required" on electrical and structural work | Designed |
-| Damage report for the education department (copy / export) | Prototype |
-| Coordinator review that publishes approved missions to the mission board | Designed (to connect) |
-
-### 6.2 Dispatch
-
-| Feature | Status |
-| --- | --- |
-| Volunteer profile: skills, equipment, area, availability | Designed |
-| Trust levels and verification (MyKad ID, child-safe background check) | Prototype (simulated) |
-| Mission board ranked by fairness, with filters and "Matches for me" | Designed + Prototype |
-| Locked missions show "Unlock: <trust level>" instead of hiding | Prototype |
-| Full missions redirect: "Help here instead" | Prototype |
+| Volunteer profile with skills and assets (4x4, boat, lorry, generator, water pump) | Designed |
+| Mission board matched on skills and assets, ranked fairly, with "why can't I join" reasons | Designed + Prototype (ranking) |
 | Request to join, coordinator approval | Designed |
-| Equipment matching (boat, lorry, 4x4, pump, generator) | Designed (partial) |
-| Viral surge simulation: with vs. without SchoolBridge | Prototype |
+| Safety check-in and check-out with expected check-out time | Designed + Prototype |
+| Overdue alert and "I need help" on the coordinator dashboard | Prototype |
+| Site posts a need (in the example: school damage report → needs) | Prototype |
+| Disaster mode banner | Prototype |
 
-### 6.3 Restore and stay safe
-
-| Feature | Status |
-| --- | --- |
-| Check-in and check-out with confirmation and expected return time | Designed + Prototype |
-| "I need help" button and overdue follow-up on the coordinator dashboard | Prototype |
-| Child-safe rules: clearance for tasks with pupils, no one alone with a pupil, no photos of pupils, supervised groups | Prototype |
-| Give supplies: pledge capped at remaining need | Designed |
-| Supply lifecycle: offered → accepted → delivered → received | Designed (to build) |
-
-### 6.4 Reopen and continue learning
+### 7.2 Differentiators
 
 | Feature | Status |
 | --- | --- |
-| School overview with Recovery and Education Continuity scores | Designed |
-| Reopening tracker (6 stages) | Prototype |
-| Reopen and notify parents | Prototype (simulated) |
-| Learning-continuity planner (partner school, community space, take-home packs, online lessons) | Designed |
-| Coordinator dashboard: schools least helped first, reports, requests, safety alerts | Designed + Prototype |
+| Micro-training: two-minute modules required before matching missions | To build |
+| Verification badges for medics, electricians, engineers | To build (simulated check) |
+| Trust levels including Child-safe | Prototype |
+| Burnout tracking: hour caps, rest between shifts, rest prompts | To build |
+| Coordinator fatigue view: volunteers near their limit | To build |
 
-### 6.5 Prepare and include
+### 7.3 Growth
 
 | Feature | Status |
 | --- | --- |
-| Disaster / Preparedness mode switch | Prototype |
-| Larger text, High contrast, Simple Mode, Read aloud | Designed |
-| Malay and English (then Chinese, Tamil) | Designed (English only) |
-| Share a mission to WhatsApp | Later |
-| WhatsApp / Telegram bot intake, offline and SMS fallback | Later |
-| Parent view and notifications | Later |
-| Anonymous "adopt a pupil" recovery kits | Later |
-| Wellbeing check-ins for pupils and teachers | Later |
+| Corporate team page: members, verified hours, impact report | To build |
+| Verified hours log per volunteer | To build |
+| Certificates and recognition badges (downloadable) | To build |
+| Preparedness mode: small tasks between disasters to keep volunteers trained and active | Prototype |
+
+### 7.4 Later
+
+- WhatsApp / Telegram intake and "Share mission to WhatsApp"
+- Offline and SMS fallback
+- Real ID (MyKad), credential and background checks
+- Real video hosting and training completion tracking
+- Chinese and Tamil
 
 ---
 
-## 7. MVP demo script (3 minutes)
+## 8. MVP demo script (3 minutes)
 
-1. **Alert.** Open SchoolBridge in Disaster mode: "Flood alert, Selangor. 12 schools affected."
-2. **Assess.** As SK Kampung Batu Lima (rural, overlooked): fill the damage walkthrough, review AI suggestions, mark the electrical inspection as professional-only, submit.
-3. **Verify.** As coordinator: approve the report; missions appear on the mission board.
-4. **Dispatch.** As a volunteer: the overlooked rural school sits at the top; the viral urban school is full and redirects. Try a locked task → verify ID → request to join → coordinator approves.
-5. **Fairness.** Coordinator runs the viral-post simulation: with vs. without SchoolBridge.
-6. **Restore.** Check in, simulate overdue, see the alert on the dashboard, check out safely. Pledge desks.
-7. **Reopen.** Fill remaining missions, mark inspection passed, reopen and notify parents. Show the learning plan that kept pupils learning meanwhile.
-8. **Prepare.** Switch to Preparedness mode to show how the network stays ready.
-
----
-
-## 8. Success metrics
-
-- Days from flood to school reopening, compared with past floods
-- Share of help reaching overlooked schools
-- School days lost per pupil; share of pupils with a confirmed learning arrangement
-- Missions fulfilled vs. posted; unused or wrong donations
-- Volunteer safety incidents (target: zero)
-- Volunteers still active 30 days after the disaster and in Preparedness mode
+1. **Disaster mode.** "Flood alert, Selangor." Schools and a relief center post needs.
+2. **Profile.** Aina registers: skills Cleanup and Driving, asset **4x4**. Faiz registers as an **Electrician**, which shows "not yet checked".
+3. **Matching.** Aina's board puts the overlooked rural school's "Deliver supplies by 4x4" at the top, marked "Matches your 4x4". The viral urban school's cleanup is full and redirects.
+4. **Training.** Aina taps "Mud cleanup" and is asked to complete "Safe flood cleanup" (2 min). She completes it and requests to join.
+5. **Badges.** Faiz can't take "Check computer lab wiring" until the coordinator verifies his Electrician badge (demo). Then it unlocks.
+6. **Coordinator.** Approves both requests.
+7. **Safety.** Aina checks in. Simulate overdue: the alert appears on the dashboard. She checks out safely.
+8. **Burnout.** Try to join a third shift today: "You've worked 8 hours today. Rest first."
+9. **Recognition.** Aina's hours and certificate. Switch to the company view: "Acme Bhd team: 6 volunteers, 42 verified hours", download the impact report.
+10. **Result.** The school's reopening tracker moves forward because the right people and equipment arrived.
 
 ---
 
-## 9. Risks and mitigations
+## 9. Success metrics
+
+- Time from need posted to volunteer on site
+- Share of missions filled by volunteers with the right skill or asset
+- Share of help reaching overlooked sites
+- Volunteer safety incidents and unresolved overdue alerts (target: zero)
+- Volunteers exceeding hour caps (target: zero without coordinator override)
+- Training completion before deployment
+- Volunteers still active 30 days later; corporate teams returning
+
+---
+
+## 10. Risks and mitigations
 
 | Risk | Mitigation |
 | --- | --- |
-| Predators accessing children | Child-safe level with background checks, two-person rule, no photos of pupils, no unsupervised contact |
-| Unsafe buildings | Professional inspection required for electrical and structural work; AI never certifies safety; scores never permit reopening |
-| Fake volunteers / looting | ID verification, verified badge, on-site check-in with coordinator |
-| Fake schools or needs | School code verification, coordinator review of every report |
-| Volunteer injury / liability | Risk-graded missions, high-risk limited to verified or professional responders, NGO and insurer partnerships |
-| Data about children | No child records in the prototype; minimal collection, role-based access and retention rules in production |
-| Authority conflict | Integrate with agency and education department command, don't bypass it |
-| Cold start | Preparedness mode and year-round school community events (gotong-royong) |
-| Stale missions | School confirms completion; missions expire |
+| Unqualified people doing electrical or structural work | Badge required; self-reported skills shown as unchecked |
+| Volunteer injury | Required micro-training, risk-graded missions, check-in, overdue alerts |
+| Volunteer burnout | Hour caps, rest between shifts, coordinator fatigue view |
+| Predators accessing children (school scenario) | Child-safe trust level, two-person rule, no photos of pupils |
+| Fake volunteers / looting | ID verification, on-site check-in with the coordinator |
+| Fake sites or needs | Site verification and coordinator review |
+| Inflated hours for certificates or corporate reports | Hours only from check-in/out, confirmed by the coordinator |
+| Cold start | Preparedness mode and corporate programs keep volunteers active between disasters |
 
 ---
 
-## 10. Business model
+## 11. Business model
 
-Volunteers, schools and disaster victims never pay.
-- Corporate sponsorship of schools and employee volunteering programs (verified hours and impact reports)
-- Education department and district dashboard contracts
-- Grants and NGO partnerships
-- Later: insurer partnerships using anonymized readiness and damage data
-
----
-
-## 11. Roadmap
-
-1. **Hackathon:** SchoolBridge prototype covering the full recovery cycle for schools.
-2. **Pilot:** one flood-prone district with its education office and one NGO partner.
-3. **Expand sites:** homes of pupils and teachers, then shelters and clinics, on the same engine.
-4. **Scale:** state-level dashboards, WhatsApp intake, offline and SMS support.
+Volunteers and people affected by disasters never pay.
+- **Corporate volunteering programs (main B2B path):** companies pay for team management, verified-hours reports and impact reports for ESG / CSR disclosure.
+- Agency and district dashboard contracts.
+- Training partners (e.g. Red Crescent) sponsoring or certifying modules.
+- Grants and NGO partnerships.
 
 ---
 
-## 12. Open questions
+## 12. Roadmap
 
-- Pilot district and case-study flood
-- Verification strictness for the Open level
-- Demo channel: web app, WhatsApp bot, or both
-- Who confirms the safety inspection stage (JKR, licensed engineer, district office)
-- Competitors to check (Crisis Cleanup, Team Rubicon, GoodSAM, local Malaysian tools)
+1. **Hackathon:** dispatch engine with core and differentiator features, shown through the school flood scenario.
+2. **Pilot:** one flood-prone district with one NGO, one company team and real training content.
+3. **Credentials:** real ID and professional verification partners.
+4. **Scale:** more site types and scenarios, WhatsApp intake, offline and SMS support.
+
+---
+
+## 13. Open questions
+
+- Product name: "SchoolBridge" fits the example scenario but not a general dispatch platform. Keep it, or rename?
+- Who verifies badges (professional bodies, NGO partner, manual review)?
+- Which training modules are required for which missions?
+- Default burnout caps: agree with an NGO partner.
+- Pilot district and partner company.
+- Competitors to check (Crisis Cleanup, Team Rubicon, GoodSAM, local Malaysian tools).
