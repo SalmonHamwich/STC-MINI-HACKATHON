@@ -1,2 +1,3 @@
 # STC-MINI-HACKATHON
-Hello
+Hello OKT
+
