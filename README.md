@@ -10,15 +10,36 @@ Specs: [PRODUCT.md](PRODUCT.md) (requirements and rules) · [DESIGN.md](DESIGN.m
 
 This replaces the earlier `pulih-prototype.html`, which remains in the git history.
 
-## Run
+## Quick start for judges
 
-Needs Node.js 20 or newer. No install step, no dependencies.
+You need [Node.js](https://nodejs.org) 20 or newer and git. There is nothing to install and no build step.
+
+```bash
+git clone https://github.com/SalmonHamwich/STC-MINI-HACKATHON.git
+```
+
+```bash
+cd STC-MINI-HACKATHON
+```
 
 ```bash
 npm start
 ```
 
-Open http://localhost:5173. Set `PORT` to change the port.
+Then open http://localhost:5173 in Chrome, Edge, Firefox or Safari. Keep the terminal open while you use the app; press Ctrl+C to stop it.
+
+No git? Use **Code → Download ZIP** on GitHub, unzip, open a terminal in that folder and run `npm start`.
+
+### If it does not load
+
+| What you see | Fix |
+| --- | --- |
+| A blank page after double-clicking `index.html` | Browsers block the app's scripts when opened as a file. Run `npm start` and use the http://localhost:5173 address instead. |
+| `Port 5173 is already in use` | Start on another port. PowerShell: `$env:PORT=3000; npm start`. macOS, Linux or Git Bash: `PORT=3000 npm start`. Then open http://localhost:3000. |
+| `npm` or `node` is not recognised | Install Node.js 20 or newer, then open a new terminal. `node server.js` works in place of `npm start`. |
+| Old or odd data on screen | Press **Reset demo** in the blue demo bar. Data is kept in the browser only. |
+
+### Tests
 
 ```bash
 npm test
@@ -28,7 +49,7 @@ npm test
 npm run check
 ```
 
-`npm test` runs the logic tests (Node's built-in test runner). `npm run check` syntax-checks every module.
+`npm test` runs 27 logic tests with Node's built-in test runner. `npm run check` syntax-checks every module.
 
 ## Three-minute demo
 

@@ -19,4 +19,13 @@ createServer(async (req, res) => {
   } catch {
     res.writeHead(404, { 'Content-Type': 'text/plain' }).end('Not found');
   }
-}).listen(port, '127.0.0.1', () => console.log(`ReadyHands prototype: http://localhost:${port}`));
+}).on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${port} is already in use. Start on another port, for example:
+  PowerShell:  $env:PORT=3000; npm start
+  bash:        PORT=3000 npm start`);
+  } else {
+    console.error(`Could not start the server: ${err.message}`);
+  }
+  process.exit(1);
+}).listen(port, '127.0.0.1', () => console.log(`ReadyHands prototype is running. Open http://localhost:${port} in your browser. Press Ctrl+C to stop.`));
