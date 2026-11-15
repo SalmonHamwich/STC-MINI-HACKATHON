@@ -1,8 +1,8 @@
-# SchoolBridge: Product
+# ReadyHands: Product
 
 > **The right volunteer, with the right skills and equipment, sent safely to where help is needed.**
 
-SchoolBridge is a **disaster volunteer dispatch platform**. Its base idea is **skill-based volunteer matching**: volunteers register what they can do *and* what they can bring (a 4x4, a boat, a generator), and SchoolBridge dispatches them to verified needs after a natural disaster, keeps them safe while they work, and recognizes the hours they give.
+ReadyHands is a **disaster volunteer dispatch platform**. Its base idea is **skill-based volunteer matching**: volunteers register what they can do *and* what they can bring (a 4x4, a boat, a generator), and ReadyHands dispatches them to verified needs after a natural disaster, keeps them safe while they work, and recognizes the hours they give.
 
 **Example scenario: school recovery after a flood.** To show the platform end to end, the prototype follows schools damaged by a flood. A school is one kind of site that requests help; the dispatch engine is the same for homes, relief centers and clinics. See §6.
 
@@ -34,17 +34,17 @@ Base idea: **skill-based volunteer matching**. Features are grouped by priority,
 | **Differentiator** | **Micro-training** | Two-minute video modules ("Safe flood cleanup", "Psychological first aid", "Working around electricity") that must be completed before a mission that requires them. |
 | **Differentiator** | **Verification badges** | Medics, electricians and engineers whose credentials have been checked get a badge. Professional missions require the badge. |
 | **Differentiator** | **Burnout tracking** | Caps shift hours per day and week, enforces rest between shifts, and prompts volunteers to rest. |
-| **Growth** | **Corporate volunteering programs** | Companies send teams and receive verified-hours reports. A B2B revenue path. |
-| **Growth** | **Reputation and recognition** | Verified hours, certificates and badges volunteers can add to their CV. |
+| **Growth** | **Reputation and recognition** | Certificates and badges volunteers can add to their CV. |
+| **Future** | **Corporate volunteering programs** | Companies send teams of volunteers. A B2B revenue path. |
 
 ### 2.1 The dispatch loop
 
 ```
-Site posts a need ─▶ Coordinator verifies ─▶ Matched to volunteers (skills + assets + badges + training + rest)
-      ▲                                                     │
-      │                                                     ▼
-Hours, certificate,  ◀── Check out safely ◀── Check in ◀── Volunteer requests, coordinator approves,
-reputation                (overdue → alert)                  required training done
+Poster creates a post ─▶ Admin approves the post ─▶ Matched to volunteers (skills + assets + badges + training + rest)
+      ▲                                                         │
+      │                                                         ▼
+Certificate,      ◀── Check out safely ◀── Check in ◀── Volunteer requests to join,
+recognition            (overdue → alert)                 poster accepts, required training done
 ```
 
 ---
@@ -56,20 +56,24 @@ reputation                (overdue → alert)                  required training
 3. **Verified, not self-declared, for professional work.** A self-reported electrician is shown as "not yet checked" and can't take electrical missions.
 4. **Protect volunteers from themselves.** Rest is part of the plan, not an afterthought.
 5. **Fair by default.** Overlooked sites rank higher than viral ones; full missions redirect to open ones.
-6. **Recognize every hour.** Verified hours turn into certificates for volunteers and impact reports for companies.
+6. **Recognize every effort.** Completed shifts turn into certificates and badges for volunteers.
 7. **Works under stress.** Plain words, large controls, low bandwidth, Bahasa Melayu and English, usable by people new to technology.
 
 ---
 
 ## 4. Users
 
+There are two roles. One account can be both a volunteer and a poster.
+
 | User | Job to be done | Primary screens |
 | --- | --- | --- |
-| Volunteer | Find missions that fit my skills and equipment, get trained, help safely, get home safely, get credit | Profile, Training, Mission board, Safety check-in, My hours |
-| Professional volunteer (medic, electrician, engineer) | Get verified once, then be sent where my skills matter | Profile, Verification |
-| Site requester (in the example: school principal) | Ask for exactly the people and equipment we need | Post a need (school damage report in the example) |
-| Coordinator (NGO, agency, district) | Verify needs, approve volunteers, watch safety and fatigue, redirect help | Coordinator dashboard |
-| Company (HR / CSR lead) | Send teams, track their verified hours, get an impact report | Corporate team page |
+| **Admin / coordinator** (NGO, agency, district) | **Approve a post** before it goes live; watch safety alerts and fatigue; verify badges | Coordinator dashboard |
+| **Poster** (in the example: school principal) | Create a post asking for the people and equipment a site needs; accept or decline volunteers who request to join | Create a post (school damage report in the example), My posts |
+| **Volunteer** | Find posts that fit my skills and equipment, **request to join a post**, get trained, help safely, get home safely | Profile, Training, Post board, Safety check-in |
+
+**Volunteer ↔ poster:** the volunteer sends a request on an approved post; the poster accepts or declines it. Professional volunteers (medic, electrician, engineer) are volunteers with a verified badge.
+
+*Future:* Company (HR / CSR lead) sending teams of volunteers.
 
 ---
 
@@ -77,18 +81,15 @@ reputation                (overdue → alert)                  required training
 
 | Concept | Definition |
 | --- | --- |
-| **Disaster event** | A natural disaster alert (flood, landslide, storm) that switches the platform to Disaster mode. |
 | **Site** | A verified place that needs help. Types: school, home, relief center, clinic. Has an `overlooked` flag. |
-| **Need / Mission** | A verified request: number of people, required skills, required assets, required badge, required training, trust level, risk, shift time and length. |
-| **Volunteer profile** | Skills, assets, area, availability, badges, completed training, trust level, hours worked, rest status. |
-| **Trust level** | 0 Open (supervised group tasks) · 1 Verified ID (assets, homes, deliveries) · 2 Child-safe (tasks with children present). |
-| **Verification badge** | Checked credential: Medic, Electrician, Engineer. Separate from trust level. |
+| **Post (need / mission)** | A request for help created by a poster and approved by an admin: number of people, required skills, required assets, required badge, required training, risk, shift time and length. Status: Draft → Waiting for approval → Live → Full / Closed. |
+| **Volunteer profile** | Skills, assets, area, availability, badges, completed training, hours worked, rest status. |
+| **Verification badge** | Checked credential: Medic, Electrician, Engineer, and Child-safe (background check, for tasks with children present). |
 | **Training module** | A two-minute video plus a short check. Valid for 12 months. |
-| **Shift** | A dated block of time on a mission with expected check-out time. |
-| **Safety status** | Requested → Approved → On site → Checked out; or Overdue / Help requested. |
+| **Shift** | A dated block of time on a post with expected check-out time. |
+| **Safety status** | Requested → Accepted by poster → On site → Checked out; or Overdue / Help requested. |
 | **Rest status** | Hours today and this week vs. caps; time since last shift. |
-| **Verified hours** | Hours between check-in and check-out, confirmed by the coordinator. |
-| **Team** | A group of volunteers under a company or organization. |
+| **Team** *(future)* | A group of volunteers under a company or organization. |
 
 ### 5.1 Matching rule (prototype)
 
@@ -96,7 +97,6 @@ A volunteer can **join** a mission only if all hard rules pass:
 - Has every required skill **or** asset listed as "must have"
 - Has the required badge (professional missions)
 - Has completed the required training
-- Has the required trust level
 - Is within rest limits after this shift (see 5.2)
 
 Missions that fail a rule stay visible with the reason and the fix: "Complete 'Safe flood cleanup' (2 min)", "Needs a verified Electrician badge", "You've worked 8 hours today. Rest first."
@@ -135,7 +135,7 @@ The prototype's demo data follows a flood in Selangor that damages several schoo
 
 **What the school adds on top of the engine**
 - A guided **damage report** (room by room) that turns into needs: Severe classroom → cleanup crew + desks; computer lab → verified Electrician; field → lorry.
-- **Child-safe rules**: tasks with pupils present need Child-safe trust; no one alone with a pupil; no photos of pupils.
+- **Child-safe rules**: tasks with pupils present need a Child-safe badge; no one alone with a pupil; no photos of pupils.
 - A **reopening tracker** (evacuees relocated → damage assessed → cleanup done → inspection passed → supplies in → reopened) that shows the effect of dispatch.
 
 The scenario is replaceable. Another demo could use a landslide hitting a village, using the same screens.
@@ -151,20 +151,19 @@ Status: **Designed** = specified in DESIGN.md · **Prototype** = working in the 
 | Feature | Status |
 | --- | --- |
 | Volunteer profile with skills and assets (4x4, boat, lorry, generator, water pump) | Designed |
-| Mission board matched on skills and assets, ranked fairly, with "why can't I join" reasons | Designed + Prototype (ranking) |
-| Request to join, coordinator approval | Designed |
+| Poster creates a post (in the example: school damage report → needs) | Prototype |
+| Admin approves a post before it goes live | Designed |
+| Post board matched on skills and assets, ranked fairly, with "why can't I join" reasons | Designed + Prototype (ranking) |
+| Volunteer requests to join a post; poster accepts or declines | Designed |
 | Safety check-in and check-out with expected check-out time | Designed + Prototype |
 | Overdue alert and "I need help" on the coordinator dashboard | Prototype |
-| Site posts a need (in the example: school damage report → needs) | Prototype |
-| Disaster mode banner | Prototype |
 
 ### 7.2 Differentiators
 
 | Feature | Status |
 | --- | --- |
 | Micro-training: two-minute modules required before matching missions | To build |
-| Verification badges for medics, electricians, engineers | To build (simulated check) |
-| Trust levels including Child-safe | Prototype |
+| Verification badges for medics, electricians, engineers and Child-safe | To build (simulated check) |
 | Burnout tracking: hour caps, rest between shifts, rest prompts | To build |
 | Coordinator fatigue view: volunteers near their limit | To build |
 
@@ -172,13 +171,12 @@ Status: **Designed** = specified in DESIGN.md · **Prototype** = working in the 
 
 | Feature | Status |
 | --- | --- |
-| Corporate team page: members, verified hours, impact report | To build |
-| Verified hours log per volunteer | To build |
 | Certificates and recognition badges (downloadable) | To build |
 | Preparedness mode: small tasks between disasters to keep volunteers trained and active | Prototype |
 
 ### 7.4 Later
 
+- Teams and corporate volunteering programs (company team page, impact reports)
 - WhatsApp / Telegram intake and "Share mission to WhatsApp"
 - Offline and SMS fallback
 - Real ID (MyKad), credential and background checks
@@ -189,16 +187,17 @@ Status: **Designed** = specified in DESIGN.md · **Prototype** = working in the 
 
 ## 8. MVP demo script (3 minutes)
 
-1. **Disaster mode.** "Flood alert, Selangor." Schools and a relief center post needs.
-2. **Profile.** Aina registers: skills Cleanup and Driving, asset **4x4**. Faiz registers as an **Electrician**, which shows "not yet checked".
-3. **Matching.** Aina's board puts the overlooked rural school's "Deliver supplies by 4x4" at the top, marked "Matches your 4x4". The viral urban school's cleanup is full and redirects.
-4. **Training.** Aina taps "Mud cleanup" and is asked to complete "Safe flood cleanup" (2 min). She completes it and requests to join.
-5. **Badges.** Faiz can't take "Check computer lab wiring" until the coordinator verifies his Electrician badge (demo). Then it unlocks.
-6. **Coordinator.** Approves both requests.
-7. **Safety.** Aina checks in. Simulate overdue: the alert appears on the dashboard. She checks out safely.
-8. **Burnout.** Try to join a third shift today: "You've worked 8 hours today. Rest first."
-9. **Recognition.** Aina's hours and certificate. Switch to the company view: "Acme Bhd team: 6 volunteers, 42 verified hours", download the impact report.
-10. **Result.** The school's reopening tracker moves forward because the right people and equipment arrived.
+1. **Post.** A flood hits Selangor. The principal of SK Kampung Batu Lima (poster) fills in the damage report; it becomes posts for cleanup, a 4x4 delivery and an electrician.
+2. **Approve.** The admin approves the posts; they go live on the post board.
+3. **Profile.** Aina registers: skills Cleanup and Driving, asset **4x4**. Faiz registers as an **Electrician**, which shows "not yet checked".
+4. **Matching.** Aina's board puts the overlooked rural school's "Deliver supplies by 4x4" at the top, marked "Matches your 4x4". The viral urban school's cleanup is full and redirects.
+5. **Training.** Aina taps "Mud cleanup" and is asked to complete "Safe flood cleanup" (2 min). She completes it and requests to join.
+6. **Badges.** Faiz can't take "Check computer lab wiring" until the admin verifies his Electrician badge (demo). Then he requests to join.
+7. **Accept.** The poster accepts both requests.
+8. **Safety.** Aina checks in. Simulate overdue: the alert appears on the dashboard. She checks out safely.
+9. **Burnout.** Try to join a third shift today: "You've worked 8 hours today. Rest first."
+10. **Recognition.** Aina's certificate and badges.
+11. **Result.** The school's reopening tracker moves forward because the right people and equipment arrived.
 
 ---
 
@@ -210,7 +209,8 @@ Status: **Designed** = specified in DESIGN.md · **Prototype** = working in the 
 - Volunteer safety incidents and unresolved overdue alerts (target: zero)
 - Volunteers exceeding hour caps (target: zero without coordinator override)
 - Training completion before deployment
-- Volunteers still active 30 days later; corporate teams returning
+- Time from post created to post approved
+- Volunteers still active 30 days later
 
 ---
 
@@ -221,38 +221,39 @@ Status: **Designed** = specified in DESIGN.md · **Prototype** = working in the 
 | Unqualified people doing electrical or structural work | Badge required; self-reported skills shown as unchecked |
 | Volunteer injury | Required micro-training, risk-graded missions, check-in, overdue alerts |
 | Volunteer burnout | Hour caps, rest between shifts, coordinator fatigue view |
-| Predators accessing children (school scenario) | Child-safe trust level, two-person rule, no photos of pupils |
-| Fake volunteers / looting | ID verification, on-site check-in with the coordinator |
-| Fake sites or needs | Site verification and coordinator review |
-| Inflated hours for certificates or corporate reports | Hours only from check-in/out, confirmed by the coordinator |
-| Cold start | Preparedness mode and corporate programs keep volunteers active between disasters |
+| Predators accessing children (school scenario) | Child-safe badge, two-person rule, no photos of pupils |
+| Fake volunteers / looting | Poster accepts each volunteer; on-site check-in with the poster |
+| Fake sites or posts | Admin approves every post before it goes live |
+| Inflated hours for certificates | Hours only from check-in to check-out |
+| Cold start | Preparedness mode keeps volunteers trained and active between disasters |
 
 ---
 
 ## 11. Business model
 
 Volunteers and people affected by disasters never pay.
-- **Corporate volunteering programs (main B2B path):** companies pay for team management, verified-hours reports and impact reports for ESG / CSR disclosure.
 - Agency and district dashboard contracts.
 - Training partners (e.g. Red Crescent) sponsoring or certifying modules.
 - Grants and NGO partnerships.
+- *Future:* corporate volunteering programs, where companies pay to send teams and receive impact reports for ESG / CSR disclosure.
 
 ---
 
 ## 12. Roadmap
 
 1. **Hackathon:** dispatch engine with core and differentiator features, shown through the school flood scenario.
-2. **Pilot:** one flood-prone district with one NGO, one company team and real training content.
+2. **Pilot:** one flood-prone district with one NGO and real training content.
 3. **Credentials:** real ID and professional verification partners.
-4. **Scale:** more site types and scenarios, WhatsApp intake, offline and SMS support.
+4. **Teams:** corporate volunteering programs.
+5. **Scale:** more site types and scenarios, WhatsApp intake, offline and SMS support.
 
 ---
 
 ## 13. Open questions
 
-- Product name: "SchoolBridge" fits the example scenario but not a general dispatch platform. Keep it, or rename?
+- Name check: confirm "ReadyHands" is free (domain, app stores, Malaysian NGOs).
 - Who verifies badges (professional bodies, NGO partner, manual review)?
 - Which training modules are required for which missions?
 - Default burnout caps: agree with an NGO partner.
-- Pilot district and partner company.
+- Pilot district and NGO partner.
 - Competitors to check (Crisis Cleanup, Team Rubicon, GoodSAM, local Malaysian tools).
