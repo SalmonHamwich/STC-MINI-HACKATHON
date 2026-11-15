@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SchoolBridge · Back to learning, together</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="access">
+      <span>Made for everyone.</span>
+      <div>
+        <button id="size">A+ Larger text</button
+        ><button id="contrast" aria-pressed="false">◐ High contrast</button
+        ><button id="read">◖ Read aloud</button
+        ><button id="language">◎ English ▾</button>
+      </div>
+    </div>
+    <header>
+      <a class="brand" href="#home"
+        >⌂ SchoolBridge<small>BACK TO LEARNING, TOGETHER</small></a
+      >
+      <nav aria-label="Main">
+        <a href="#home">⌂ Home</a><a href="#missions">♡ Find a mission</a
+        ><a href="#resources">▣ Give supplies</a>
+      </nav>
+      <button id="simple" aria-pressed="false">☀ Simple mode</button>
+    </header>
+    <main id="main" tabindex="-1"></main>
+    <footer>
+      <strong>SchoolBridge</strong><span>Small acts. Stronger schools.</span
+      ><span>Demo prototype · Sample data · No live dispatch</span>
+    </footer>
+    <div id="toast" role="status"></div>
+    <dialog id="dialog">
+      <div id="dialogbody"></div>
+      <button id="close">Close</button>
+    </dialog>
+    <script src="app.js"></script>
+  </body>
+</html>
